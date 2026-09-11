@@ -1,233 +1,344 @@
+import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
-import { HiArrowRight } from 'react-icons/hi'
-import { useRef, useState } from 'react'
+import { profile, stats } from '../../data/portfolio'
 
-export default function HeroSection() {
-  const imageRef = useRef<HTMLDivElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+const HeroOrb = lazy(() => import('./HeroOrb'))
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!imageRef.current) return
-    const rect = imageRef.current.getBoundingClientRect()
-    const x = (e.clientX - rect.left - rect.width / 2) / rect.width
-    const y = (e.clientY - rect.top - rect.height / 2) / rect.height
-    setMousePosition({ x: x * 20, y: y * 20 })
+// Word-by-word stagger animation for the big tagline
+function HeroTagline() {
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.3,
+      },
+    },
   }
 
-  const handleMouseLeave = () => {
-    setMousePosition({ x: 0, y: 0 })
+  const word = {
+    hidden: { opacity: 0, y: 60, rotateX: -40 },
+    show: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+    },
   }
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center pt-20 px-4 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 relative overflow-hidden">
-      {/* Animated Background Grid */}
-      <div className="absolute inset-0 bg-grid opacity-30" />
+    <motion.h1
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="text-hero font-display font-bold leading-none"
+      style={{ perspective: '600px', transformStyle: 'preserve-3d' }}
+    >
+      {profile.tagline.map((line, i) => (
+        <div key={i} style={{ overflow: 'hidden', display: 'block' }}>
+          <motion.span
+            variants={word}
+            className="block"
+            style={{
+              color: i === profile.tagline.length - 1 ? 'var(--accent)' : 'var(--text-primary)',
+            }}
+          >
+            {line}
+          </motion.span>
+        </div>
+      ))}
+    </motion.h1>
+  )
+}
 
-      {/* Floating Blobs */}
-      <motion.div
-        className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-cyan-500/20 to-blue-500/10 rounded-full blur-3xl blob-1"
-        animate={{ scale: [1, 1.2, 1] }}
-        transition={{ duration: 8, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-indigo-500/20 to-cyan-500/10 rounded-full blur-3xl blob-2"
-        animate={{ scale: [1.2, 1, 1.2] }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
+// Portrait card with 3D tilt + HUD overlay effects
+function PortraitCard() {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const [isHovered, setIsHovered] = useState(false)
+  const [scanVisible, setScanVisible] = useState(false)
+  const rafRef = useRef<number>()
 
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
-        {/* Text Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="space-y-8"
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    const targetX = -(e.clientY - centerY) / (rect.height / 2) * 8
+    const targetY = (e.clientX - centerX) / (rect.width / 2) * 8
+
+    cancelAnimationFrame(rafRef.current!)
+    rafRef.current = requestAnimationFrame(() => {
+      setTilt({ x: targetX, y: targetY })
+    })
+  }
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 })
+    setIsHovered(false)
+    setScanVisible(false)
+  }
+
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+    setScanVisible(true)
+  }
+
+  useEffect(() => {
+    return () => cancelAnimationFrame(rafRef.current!)
+  }, [])
+
+  return (
+    <div className="perspective-1000 w-full max-w-sm mx-auto lg:mx-0">
+      <motion.div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onMouseEnter={handleMouseEnter}
+        style={{
+          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+          transition: isHovered ? 'transform 0.1s linear' : 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+          transformStyle: 'preserve-3d',
+        }}
+        className="relative"
+        data-cursor="explore"
+        data-cursor-label="EXPLORE"
+      >
+        {/* Main card */}
+        <div
+          className={`relative rounded-3xl overflow-hidden portrait-card ${scanVisible ? 'portrait-scan' : ''}`}
+          style={{
+            boxShadow: isHovered
+              ? '0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(228,255,0,0.08)'
+              : '0 24px 80px rgba(0,0,0,0.7)',
+            border: '1px solid rgba(255,255,255,0.08)',
+          }}
         >
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <h1 className="text-6xl md:text-7xl font-bold text-white leading-tight">
-              Hi, I'm{' '}
-              <span className="gradient-text text-reveal">
-                Lambodar
-              </span>
-            </h1>
-          </motion.div>
+          {/* Holographic rim */}
+          <div
+            className="absolute inset-0 rounded-3xl z-10 pointer-events-none"
+            style={{
+              background: isHovered
+                ? 'linear-gradient(135deg, rgba(228,255,0,0.06) 0%, transparent 50%, rgba(0,212,255,0.06) 100%)'
+                : 'none',
+              transition: 'background 0.4s ease',
+            }}
+          />
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl text-gray-300 leading-relaxed"
-          >
-            Full-Stack Developer & Enterprise Architect. Building scalable systems and crafting beautiful web experiences.
-          </motion.p>
+          {/* HUD corners */}
+          <div className="hud-corner hud-corner-tl" style={{ opacity: isHovered ? 1 : 0.3, transition: 'opacity 0.3s' }} />
+          <div className="hud-corner hud-corner-tr" style={{ opacity: isHovered ? 1 : 0.3, transition: 'opacity 0.3s' }} />
+          <div className="hud-corner hud-corner-bl" style={{ opacity: isHovered ? 1 : 0.3, transition: 'opacity 0.3s' }} />
+          <div className="hud-corner hud-corner-br" style={{ opacity: isHovered ? 1 : 0.3, transition: 'opacity 0.3s' }} />
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-lg text-gray-400"
-          >
-            Specialized in Java backend systems, React web applications, and cloud infrastructure. Trusted by startups and enterprises to architect systems that drive growth.
-          </motion.p>
+          {/* Portrait image */}
+          <img
+            src={profile.image}
+            alt={profile.fullName}
+            className="w-full h-full object-cover block"
+            style={{ aspectRatio: '3/4', minHeight: '400px', maxHeight: '520px' }}
+            loading="eager"
+            fetchPriority="high"
+          />
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex gap-4 pt-4 flex-wrap"
-          >
-            <motion.a
-              href="#projects"
-              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(0, 217, 255, 0.4)' }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-lg font-semibold hover:shadow-2xl transition flex items-center gap-2 hover:lift"
-            >
-              View My Work
-              <HiArrowRight className="group-hover:translate-x-1 transition" />
-            </motion.a>
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.05, borderColor: '#00d9ff' }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 rounded-lg font-semibold hover:bg-cyan-400/10 transition neon-border"
-            >
-              Get In Touch
-            </motion.a>
-          </motion.div>
+          {/* Bottom gradient overlay */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-40 z-10 pointer-events-none"
+            style={{
+              background: 'linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 100%)',
+            }}
+          />
 
+          {/* HUD data overlay */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="flex gap-12 pt-8 border-t border-gray-700"
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-4 right-4 z-20 flex flex-col items-end gap-1"
           >
-            {[
-              { num: '50+', label: 'Projects Delivered' },
-              { num: '100%', label: 'Client Satisfaction' },
-              { num: '3+', label: 'Years Experience' }
-            ].map((stat, idx) => (
+            {['DEVELOPER', 'AI · 3D', 'FULL STACK'].map((tag, i) => (
               <motion.div
-                key={idx}
-                whileHover={{ scale: 1.1, y: -5 }}
-                className="hover-lift"
+                key={tag}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : 10 }}
+                transition={{ delay: i * 0.07, duration: 0.2 }}
+                className="text-label text-accent bg-black/60 px-2 py-0.5 rounded backdrop-blur-sm"
+                style={{ fontSize: '0.6rem' }}
               >
-                <div className="text-3xl font-bold gradient-text">{stat.num}</div>
-                <div className="text-gray-400 text-sm mt-2">{stat.label}</div>
+                {tag}
               </motion.div>
             ))}
           </motion.div>
-        </motion.div>
 
-        {/* Image with 3D Effects */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotateZ: -10 }}
-          animate={{ opacity: 1, scale: 1, rotateZ: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          ref={imageRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          className="relative perspective-container"
-        >
-          {/* 3D Image Container */}
-          <motion.div
-            animate={{
-              rotateX: mousePosition.y,
-              rotateY: mousePosition.x,
-            }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            style={{
-              transformStyle: 'preserve-3d',
-              perspective: '1200px'
-            }}
-            className="relative w-full aspect-square"
-          >
-            <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-cyan-400/50 bg-gradient-to-br from-cyan-500/30 to-blue-500/20 shadow-2xl glow-cyan-box">
-              <img
-                src="/myimg.png"
-                alt="Lambodar"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-40" />
-
-              {/* Shimmer Effect */}
-              <div className="absolute inset-0 shimmer opacity-60" />
-            </div>
-
-            {/* Orbiting Circles */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-              className="absolute -inset-8 rounded-full border border-cyan-400/20"
-            />
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-              className="absolute -inset-16 rounded-full border border-blue-500/10"
-            />
-          </motion.div>
-
-          {/* Available Badge */}
-          <motion.div
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="absolute -bottom-6 right-6 glass-panel rounded-xl p-4 glass-panel-hover neon-border"
-          >
-            <div className="flex items-center gap-3">
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold pulse-glow"
-              >
-                ✓
-              </motion.div>
-              <div>
-                <div className="font-semibold text-white text-sm">Available Now</div>
-                <div className="text-gray-400 text-xs">Open for Opportunities</div>
+          {/* Status badge */}
+          <div className="absolute bottom-5 left-5 right-5 z-20">
+            {profile.available && (
+              <div className="flex items-center gap-2 surface-glass rounded-xl px-4 py-2.5 w-fit">
+                <div className="status-dot" />
+                <div>
+                  <div className="text-xs font-semibold text-text-primary font-display">
+                    Available for Projects
+                  </div>
+                  <div className="text-[0.6rem] text-text-muted font-mono">
+                    Open to opportunities
+                  </div>
+                </div>
               </div>
-            </div>
-          </motion.div>
-
-          {/* Floating Particles Around Image */}
-          {[...Array(6)].map((_, idx) => (
-            <motion.div
-              key={idx}
-              animate={{
-                x: [Math.cos(idx * 60 * Math.PI / 180) * 100, Math.cos(idx * 60 * Math.PI / 180) * 120],
-                y: [Math.sin(idx * 60 * Math.PI / 180) * 100, Math.sin(idx * 60 * Math.PI / 180) * 120],
-              }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute w-2 h-2 rounded-full bg-cyan-400/60 blur-sm"
-              style={{
-                left: '50%',
-                top: '50%',
-                marginLeft: '-4px',
-                marginTop: '-4px'
-              }}
-            />
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-cyan-400 text-sm z-10"
-      >
-        <div className="flex flex-col items-center gap-2">
-          <span>Scroll to explore</span>
-          <div className="w-6 h-10 border-2 border-cyan-400 rounded-full flex items-start justify-center p-2">
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-2 bg-cyan-400 rounded-full"
-            />
+            )}
           </div>
         </div>
+
+        {/* Floating ambient glow behind card */}
+        <div
+          className="absolute -inset-6 rounded-3xl -z-10 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(228,255,0,0.05) 0%, transparent 70%)',
+            filter: 'blur(20px)',
+          }}
+        />
+      </motion.div>
+    </div>
+  )
+}
+
+export default function HeroSection() {
+  const containerVariants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+  }
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 24 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+  }
+
+  return (
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-bg-base"
+    >
+      {/* Animated background gradient mesh */}
+      <div className="gradient-mesh" aria-hidden="true" />
+
+      {/* 3D Orb — right background */}
+      <div
+        className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 opacity-40 lg:opacity-60 pointer-events-none"
+        aria-hidden="true"
+      >
+        <Suspense fallback={null}>
+          <HeroOrb />
+        </Suspense>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 w-full pt-24 pb-16">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+
+          {/* Left — Text content */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="space-y-8"
+          >
+            {/* Sub-label */}
+            <motion.div variants={fadeUp}>
+              <div className="inline-flex items-center gap-2.5 text-label text-text-muted">
+                <div className="status-dot" />
+                {profile.title.toUpperCase()} · {profile.subtitle.toUpperCase()}
+              </div>
+            </motion.div>
+
+            {/* Main tagline */}
+            <div>
+              <HeroTagline />
+            </div>
+
+            {/* Description */}
+            <motion.p
+              variants={fadeUp}
+              className="text-lg text-text-secondary max-w-md leading-relaxed"
+            >
+              {profile.description}
+            </motion.p>
+
+            {/* CTA buttons */}
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+              <motion.a
+                href="#projects"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="btn btn-primary"
+              >
+                View My Work
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </motion.a>
+
+              <motion.a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="btn btn-secondary"
+              >
+                Get In Touch
+              </motion.a>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div variants={fadeUp} className="pt-4">
+              <div className="flex gap-8 flex-wrap">
+                {stats.slice(0, 3).map((stat) => (
+                  <div key={stat.label}>
+                    <div className="font-display font-bold text-2xl text-text-primary">
+                      {stat.value}{stat.suffix}
+                    </div>
+                    <div className="text-xs text-text-muted mt-0.5">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Right — Portrait */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center lg:justify-end"
+          >
+            <PortraitCard />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <div className="text-label text-text-muted" style={{ fontSize: '0.6rem' }}>SCROLL</div>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          className="w-px h-12 origin-top"
+          style={{ background: 'linear-gradient(to bottom, var(--accent), transparent)' }}
+        />
       </motion.div>
     </section>
   )

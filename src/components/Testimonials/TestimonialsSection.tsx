@@ -1,217 +1,213 @@
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import { useState, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useDrag } from '@use-gesture/react'
+import { testimonials } from '../../data/portfolio'
 
 export default function TestimonialsSection() {
-  const { ref, inView } = useInView({ threshold: 0.3, triggerOnce: false })
+  const [activeIdx, setActiveIdx] = useState(0)
+  const [direction, setDirection] = useState(1)
+  const dragStartX = useRef(0)
 
-  const testimonials = [
-    { name: 'Rajesh Mehta', role: 'CTO at TechVentures', text: 'Exceptional backend architect who delivers production-grade systems.' },
-    { name: 'Sarah Chen', role: 'PM at FinFlow', text: 'Built an amazing mobile app that our users absolutely love.' },
-    { name: 'Michael Torres', role: 'VP at GlobalCorp', text: 'Transformed our operations with a reliable, fast web portal.' }
-  ]
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
+  const goTo = (idx: number, dir?: number) => {
+    const newDir = dir ?? (idx > activeIdx ? 1 : -1)
+    setDirection(newDir)
+    setActiveIdx(idx)
   }
 
-  const itemVariants = {
-    hidden: { opacity: 0, rotateY: -90, y: 40 },
-    visible: {
-      opacity: 1,
-      rotateY: 0,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 15,
-        duration: 0.8,
-      },
-    },
+  const prev = () => {
+    const idx = (activeIdx - 1 + testimonials.length) % testimonials.length
+    goTo(idx, -1)
   }
+
+  const next = () => {
+    const idx = (activeIdx + 1) % testimonials.length
+    goTo(idx, 1)
+  }
+
+  const bind = useDrag(
+    ({ movement: [mx], last, cancel }) => {
+      if (Math.abs(mx) > 10) cancel()
+      if (last) {
+        if (mx < -60) next()
+        else if (mx > 60) prev()
+      }
+    },
+    { axis: 'x' }
+  )
+
+  const variants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 60 : -60,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    },
+    exit: (dir: number) => ({
+      x: dir < 0 ? 60 : -60,
+      opacity: 0,
+      transition: { duration: 0.3, ease: [0.4, 0, 1, 1] },
+    }),
+  }
+
+  const testimonial = testimonials[activeIdx]
 
   return (
-    <section ref={ref} id="contact" className="py-24 px-4 bg-gradient-to-b from-slate-900 to-slate-950 relative overflow-hidden">
-      {/* Animated Background Grid */}
-      <div className="absolute inset-0 bg-grid opacity-20" />
+    <section className="relative py-32 lg:py-40 bg-bg-base overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
-      {/* Floating Blobs */}
-      <motion.div
-        className="absolute top-40 left-20 w-96 h-96 bg-gradient-to-br from-cyan-500/20 to-blue-500/10 rounded-full blur-3xl blob-1"
-        animate={{ scale: [1, 1.2, 1] }}
-        transition={{ duration: 8, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute bottom-40 -right-20 w-96 h-96 bg-gradient-to-br from-indigo-500/20 to-cyan-500/10 rounded-full blur-3xl blob-2"
-        animate={{ scale: [1.2, 1, 1.2] }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
-
-      <div className="max-w-6xl mx-auto relative z-10">
+        {/* Section label */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: false }}
-          className="mb-12"
+          className="flex items-center gap-4 mb-16"
         >
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-4 gradient-text">
-            Get In Touch
-          </h2>
-          <p className="text-xl text-gray-300">What clients say about my work</p>
+          <div className="w-8 h-px bg-accent" />
+          <span className="text-label text-text-muted">CLIENT FEEDBACK</span>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Testimonials */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
-            className="space-y-6"
-          >
-            {testimonials.map((testimonial, idx) => (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: false }}
+          className="mb-16"
+        >
+          <h2 className="text-heading font-display font-bold text-text-primary mb-2">
+            Trusted by
+            <br />
+            <span className="text-gradient">Industry Leaders.</span>
+          </h2>
+        </motion.div>
+
+        {/* Carousel */}
+        <div
+          {...bind()}
+          className="relative cursor-grab active:cursor-grabbing select-none"
+          style={{ touchAction: 'pan-y' }}
+        >
+          <div className="max-w-4xl">
+            {/* Stars */}
+            <div className="flex gap-1 mb-8">
+              {[...Array(5)].map((_, i) => (
+                <motion.svg
+                  key={i}
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.08, duration: 0.4, type: 'spring' }}
+                  viewport={{ once: false }}
+                  className="w-5 h-5"
+                  style={{ color: 'var(--accent)' }}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </motion.svg>
+              ))}
+            </div>
+
+            {/* Quote */}
+            <div className="overflow-hidden mb-12" style={{ minHeight: '120px' }}>
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.blockquote
+                  key={activeIdx}
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="font-display text-2xl lg:text-3xl font-medium text-text-primary leading-relaxed"
+                >
+                  <span className="text-accent opacity-50 text-5xl leading-none">"</span>
+                  {testimonial.text}
+                  <span className="text-accent opacity-50 text-5xl leading-none">"</span>
+                </motion.blockquote>
+              </AnimatePresence>
+            </div>
+
+            {/* Author */}
+            <AnimatePresence mode="wait">
               <motion.div
-                key={idx}
-                variants={itemVariants}
-                whileHover={{
-                  scale: 1.05,
-                  rotateY: 5,
-                  y: -10,
-                }}
-                className="group perspective-container"
+                key={`author-${activeIdx}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center gap-4 mb-12"
               >
-                <div className="p-6 rounded-2xl border-2 border-cyan-400/30 glass-panel glass-panel-hover hover-lift relative overflow-hidden">
-                  {/* Stars */}
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <motion.span
-                        key={i}
-                        initial={{ scale: 0, rotate: -180 }}
-                        whileInView={{ scale: 1, rotate: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="text-yellow-400 text-lg"
-                      >
-                        ⭐
-                      </motion.span>
-                    ))}
+                {/* Avatar */}
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center font-display font-bold text-sm"
+                  style={{
+                    background: 'var(--bg-surface-2)',
+                    border: '1px solid var(--border-hover)',
+                    color: 'var(--accent)',
+                  }}
+                >
+                  {testimonial.avatar}
+                </div>
+                <div>
+                  <div className="font-display font-semibold text-text-primary text-sm">
+                    {testimonial.author}
                   </div>
-
-                  {/* Quote */}
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-gray-300 mb-4 italic text-sm"
-                  >
-                    "{testimonial.text}"
-                  </motion.p>
-
-                  {/* Author */}
-                  <div className="pt-4 border-t border-cyan-400/20">
-                    <p className="font-semibold text-white text-sm group-hover:text-cyan-400 transition">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-gray-400 text-xs">{testimonial.role}</p>
+                  <div className="text-text-muted text-xs font-mono">
+                    {testimonial.role} · {testimonial.company}
                   </div>
-
-                  {/* Animated Corner */}
-                  <motion.div
-                    whileHover={{ scale: 1.3, opacity: 0.8 }}
-                    className="absolute -top-6 -right-6 w-20 h-20 bg-gradient-to-br from-cyan-500/30 to-blue-500/10 rounded-full blur-lg"
-                  />
                 </div>
               </motion.div>
-            ))}
-          </motion.div>
+            </AnimatePresence>
 
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 40, rotateZ: 5 }}
-            whileInView={{ opacity: 1, x: 0, rotateZ: 0 }}
-            transition={{ duration: 0.8 }}
-            className="p-8 rounded-2xl border-2 border-cyan-400/30 glass-panel glass-panel-hover neon-border"
-          >
-            <h3 className="text-3xl font-bold text-white mb-2">Let's Work Together</h3>
-            <p className="text-gray-400 mb-6">Tell me about your next project</p>
-
-            <form className="space-y-4">
-              {[
-                { label: 'Name', type: 'text', placeholder: 'Your Name' },
-                { label: 'Email', type: 'email', placeholder: 'your@email.com' }
-              ].map((field, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.1 }}
+            {/* Controls */}
+            <div className="flex items-center gap-6">
+              {/* Prev / Next */}
+              <div className="flex gap-3">
+                <button
+                  onClick={prev}
+                  aria-label="Previous testimonial"
+                  className="w-10 h-10 rounded-full border border-[var(--border)] flex items-center justify-center text-text-muted hover:text-text-primary hover:border-[var(--border-hover)] transition-all"
                 >
-                  <label className="block text-sm text-gray-300 mb-2">{field.label}</label>
-                  <motion.input
-                    whileFocus={{ scale: 1.02, boxShadow: '0 0 20px rgba(0, 217, 255, 0.3)' }}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    className="w-full px-4 py-3 rounded-lg bg-slate-900/50 border-2 border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:bg-slate-800/50 transition"
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={next}
+                  aria-label="Next testimonial"
+                  className="w-10 h-10 rounded-full border border-[var(--border)] flex items-center justify-center text-text-muted hover:text-text-primary hover:border-[var(--border-hover)] transition-all"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Dots */}
+              <div className="flex gap-2">
+                {testimonials.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goTo(i)}
+                    aria-label={`Go to testimonial ${i + 1}`}
+                    className="transition-all duration-300"
+                    style={{
+                      width: i === activeIdx ? '24px' : '6px',
+                      height: '6px',
+                      borderRadius: '3px',
+                      background: i === activeIdx ? 'var(--accent)' : 'var(--bg-surface-3)',
+                    }}
                   />
-                </motion.div>
-              ))}
-
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <label className="block text-sm text-gray-300 mb-2">Message</label>
-                <motion.textarea
-                  whileFocus={{ scale: 1.02, boxShadow: '0 0 20px rgba(0, 217, 255, 0.3)' }}
-                  placeholder="Tell me about your project..."
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-lg bg-slate-900/50 border-2 border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:bg-slate-800/50 transition resize-none"
-                />
-              </motion.div>
-
-              <motion.button
-                type="submit"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: '0 0 30px rgba(0, 217, 255, 0.5)',
-                  textShadow: '0 0 10px rgba(0, 217, 255, 0.5)',
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full px-6 py-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-lg font-semibold hover:shadow-2xl transition neon-border relative overflow-hidden group"
-              >
-                <motion.span
-                  className="absolute inset-0 bg-gradient-to-r from-cyan-300 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                  animate={{ x: [-100, 100] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-                <span className="relative">Send Message</span>
-              </motion.button>
-            </form>
-
-            {/* Social Links */}
-            <div className="mt-8 pt-8 border-t border-cyan-400/20">
-              <p className="text-gray-400 text-sm mb-4">Connect with me on social</p>
-              <div className="flex gap-4">
-                {['LinkedIn', 'GitHub', 'Twitter'].map((platform) => (
-                  <motion.a
-                    key={platform}
-                    href="#"
-                    whileHover={{ scale: 1.2, y: -5 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition neon-border"
-                  >
-                    {platform[0]}
-                  </motion.a>
                 ))}
               </div>
+
+              <div className="text-xs text-text-muted font-mono ml-auto">
+                {String(activeIdx + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
