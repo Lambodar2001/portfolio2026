@@ -40,7 +40,7 @@ export default function AnimatedCounter({ value, suffix = '', duration = 2, labe
       <div className="font-display text-4xl md:text-5xl font-bold gradient-text">
         {count}{suffix}
       </div>
-      <div className="text-slate-400 mt-2 text-sm uppercase tracking-wider">
+      <div className="text-text-secondary mt-2 text-sm uppercase tracking-wider font-medium">
         {label}
       </div>
     </motion.div>

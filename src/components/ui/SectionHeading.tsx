@@ -19,11 +19,12 @@ export default function SectionHeading({ title, subtitle, align = 'center' }: Se
         <span className="gradient-text">{title}</span>
       </h2>
       {subtitle && (
-        <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">
+        <p className="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto">
           {subtitle}
         </p>
       )}
-      <div className={`mt-6 h-1 w-20 bg-gradient-to-r from-neon-indigo to-neon-purple rounded-full ${align === 'center' ? 'mx-auto' : ''}`} />
+      <div className={`mt-6 h-1.5 w-20 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full ${align === 'center' ? 'mx-auto' : ''}`} />
     </motion.div>
   )
 }
+
