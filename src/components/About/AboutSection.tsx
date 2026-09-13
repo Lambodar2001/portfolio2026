@@ -1,9 +1,7 @@
-import { lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { skillGroups, stats } from '../../data/portfolio'
-
-const SkillsConstellation = lazy(() => import('./SkillsConstellation'))
+import TechGrid from './TechGrid'
 
 function StatCounter({ value, suffix, label }: { value: number; suffix: string; label: string }) {
   const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true })
@@ -39,7 +37,7 @@ export default function AboutSection() {
   }
 
   return (
-    <section id="about" className="relative py-32 lg:py-40 overflow-hidden bg-bg-base">
+    <section id="about" className="relative py-20 lg:py-28 overflow-hidden bg-bg-base">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Section label */}
@@ -162,38 +160,37 @@ export default function AboutSection() {
         {/* Divider */}
         <div className="divider" />
 
-        {/* Skills constellation */}
+        {/* Tech Grid */}
         <div id="skills">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: false }}
-            className="flex items-center gap-4 mb-4"
+            className="flex items-center gap-4 mb-3"
           >
             <div className="w-8 h-px bg-accent" />
-            <span className="text-label text-text-muted">TECHNOLOGY ECOSYSTEM</span>
+            <span className="text-label text-text-muted">TECHNOLOGY STACK</span>
           </motion.div>
 
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
             viewport={{ once: false }}
-            className="text-text-muted text-sm mb-2 max-w-md"
+            className="text-text-muted text-sm mb-8 max-w-md"
           >
-            An interactive constellation of technologies. Move your mouse to explore.
+            Hover any card to see proficiency. Filter by category.
           </motion.p>
 
-          <Suspense
-            fallback={
-              <div className="h-[400px] flex items-center justify-center text-text-muted text-sm">
-                Loading constellation...
-              </div>
-            }
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            viewport={{ once: false }}
           >
-            <SkillsConstellation />
-          </Suspense>
+            <TechGrid />
+          </motion.div>
         </div>
       </div>
     </section>

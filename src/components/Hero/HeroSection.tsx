@@ -155,12 +155,36 @@ function PortraitCard() {
             transition={{ duration: 0.3 }}
             className="absolute top-4 right-4 z-20 flex flex-col items-end gap-1"
           >
+            {/* Name tag — appears first */}
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : 10 }}
+              transition={{ delay: 0, duration: 0.2 }}
+              className="text-label bg-black/70 px-2 py-0.5 rounded backdrop-blur-sm"
+              style={{
+                fontSize: '0.65rem',
+                color: 'var(--text-primary)',
+                border: '1px solid rgba(228,255,0,0.25)',
+                letterSpacing: '0.1em',
+              }}
+            >
+              {profile.fullName.toUpperCase()}
+            </motion.div>
+
+            {/* Thin separator */}
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={{ opacity: isHovered ? 1 : 0, scaleX: isHovered ? 1 : 0 }}
+              transition={{ delay: 0.05, duration: 0.2 }}
+              className="w-full h-px bg-accent/30 rounded origin-right"
+            />
+
             {['DEVELOPER', 'AI · 3D', 'FULL STACK'].map((tag, i) => (
               <motion.div
                 key={tag}
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : 10 }}
-                transition={{ delay: i * 0.07, duration: 0.2 }}
+                transition={{ delay: (i + 1) * 0.07, duration: 0.2 }}
                 className="text-label text-accent bg-black/60 px-2 py-0.5 rounded backdrop-blur-sm"
                 style={{ fontSize: '0.6rem' }}
               >

@@ -77,21 +77,45 @@ export interface Skill {
 }
 
 export const skills: Skill[] = [
+  // — Core Languages —
+  { name: 'JavaScript', category: 'frontend', level: 92, color: '#f7df1e' },
+  { name: 'TypeScript', category: 'frontend', level: 92, color: '#3178c6' },
+  { name: 'Python', category: 'ai', level: 85, color: '#4584b6' },
   { name: 'Java', category: 'backend', level: 95, color: '#f89820' },
-  { name: 'Spring Boot', category: 'backend', level: 92, color: '#6db33f' },
-  { name: 'Microservices', category: 'backend', level: 90, color: '#8b5cf6' },
-  { name: 'React', category: 'frontend', level: 88, color: '#61dafb' },
-  { name: 'Next.js', category: 'frontend', level: 85, color: '#ffffff' },
-  { name: 'TypeScript', category: 'frontend', level: 90, color: '#3178c6' },
-  { name: 'React Native', category: 'mobile', level: 82, color: '#61dafb' },
-  { name: 'Node.js', category: 'backend', level: 85, color: '#68a063' },
-  { name: 'PostgreSQL', category: 'backend', level: 88, color: '#336791' },
-  { name: 'Docker', category: 'devops', level: 80, color: '#2496ed' },
-  { name: 'AWS', category: 'devops', level: 78, color: '#ff9900' },
-  { name: 'Redis', category: 'backend', level: 82, color: '#d82c20' },
-  { name: 'Kafka', category: 'backend', level: 75, color: '#00d4ff' },
+
+  // — Frontend & Mobile —
+  { name: 'React', category: 'frontend', level: 90, color: '#61dafb' },
+  { name: 'Next.js', category: 'frontend', level: 87, color: '#e0e0e0' },
+  { name: 'React Native', category: 'mobile', level: 83, color: '#7dd3fc' },
+  { name: 'Tailwind CSS', category: 'frontend', level: 92, color: '#38bdf8' },
+  { name: 'Three.js', category: 'frontend', level: 75, color: '#dddddd' },
+
+  // — Backend & APIs —
+  { name: 'Node.js', category: 'backend', level: 86, color: '#68a063' },
+  { name: 'Spring Boot', category: 'backend', level: 93, color: '#6db33f' },
   { name: 'GraphQL', category: 'frontend', level: 78, color: '#e535ab' },
-  { name: 'Tailwind CSS', category: 'frontend', level: 90, color: '#38bdf8' },
+  { name: 'REST APIs', category: 'backend', level: 95, color: '#8b5cf6' },
+  { name: 'Microservices', category: 'backend', level: 90, color: '#a78bfa' },
+
+  // — AI & Generative AI —
+  { name: 'Generative AI', category: 'ai', level: 80, color: '#e4ff00' },
+  { name: 'OpenAI API', category: 'ai', level: 82, color: '#10a37f' },
+  { name: 'LangChain', category: 'ai', level: 75, color: '#1cffac' },
+  { name: 'TensorFlow', category: 'ai', level: 72, color: '#ff6f00' },
+  { name: 'Prompt Eng.', category: 'ai', level: 85, color: '#00d4ff' },
+  { name: 'RAG', category: 'ai', level: 74, color: '#f472b6' },
+
+  // — Databases —
+  { name: 'PostgreSQL', category: 'backend', level: 88, color: '#336791' },
+  { name: 'MongoDB', category: 'backend', level: 80, color: '#4db33d' },
+  { name: 'Redis', category: 'backend', level: 83, color: '#d82c20' },
+
+  // — DevOps & Cloud —
+  { name: 'Docker', category: 'devops', level: 82, color: '#2496ed' },
+  { name: 'Kubernetes', category: 'devops', level: 74, color: '#326ce5' },
+  { name: 'AWS', category: 'devops', level: 79, color: '#ff9900' },
+  { name: 'Kafka', category: 'backend', level: 76, color: '#00d4ff' },
+  { name: 'CI / CD', category: 'devops', level: 80, color: '#22c55e' },
 ]
 
 // Skill categories for the About section

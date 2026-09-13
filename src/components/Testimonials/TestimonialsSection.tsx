@@ -55,7 +55,7 @@ export default function TestimonialsSection() {
   const testimonial = testimonials[activeIdx]
 
   return (
-    <section className="relative py-32 lg:py-40 bg-bg-base overflow-hidden">
+    <section className="relative py-20 lg:py-28 bg-bg-base overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Section label */}

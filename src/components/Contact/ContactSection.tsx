@@ -118,7 +118,7 @@ export default function ContactSection() {
   ]
 
   return (
-    <section id="contact" className="relative py-32 lg:py-40 bg-bg-base">
+    <section id="contact" className="relative py-20 lg:py-28 bg-bg-base">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Section label */}
