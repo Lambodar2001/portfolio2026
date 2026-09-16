@@ -37,7 +37,7 @@ export default function AboutSection() {
   }
 
   return (
-    <section id="about" className="relative py-20 lg:py-28 overflow-hidden bg-bg-base">
+    <section id="about" className="relative py-14 lg:py-20 overflow-hidden bg-bg-base">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Section label */}

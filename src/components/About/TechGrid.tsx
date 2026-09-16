@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { skills } from '../../data/portfolio'
 
@@ -156,6 +156,19 @@ function TechCard({ name, color, level, category, index }: TechCardProps) {
 
 export default function TechGrid() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [defaultCount, setDefaultCount] = useState(8)
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth
+      if (w < 640) setDefaultCount(6)
+      else if (w < 1024) setDefaultCount(10)
+      else setDefaultCount(16)
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
   const categories = [
     { id: null, label: 'All' },
@@ -167,9 +180,9 @@ export default function TechGrid() {
   ]
 
   const defaultSkills = [
-    ...skills.filter((s) => s.category === 'ai'),          // AI first
-    ...skills.filter((s) => s.category !== 'ai'),          // then dev
-  ].slice(0, 16)
+    ...skills.filter((s) => s.category === 'ai'),
+    ...skills.filter((s) => s.category !== 'ai'),
+  ].slice(0, defaultCount)
 
   const filtered = activeCategory
     ? skills.filter((s) => s.category === activeCategory)
@@ -202,7 +215,7 @@ export default function TechGrid() {
 
         {/* Count badge */}
         <span className="ml-auto self-center text-xs font-mono text-text-muted">
-          {activeCategory ? `${filtered.length} techs` : `16 of ${skills.length}`}
+          {activeCategory ? `${filtered.length} techs` : `${defaultCount} of ${skills.length}`}
         </span>
       </div>
 
