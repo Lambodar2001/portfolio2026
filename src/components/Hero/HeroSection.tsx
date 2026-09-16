@@ -224,16 +224,6 @@ export default function HeroSection() {
       {/* Animated background gradient mesh */}
       <div className="gradient-mesh" aria-hidden="true" />
 
-      {/* 3D Orb — right background */}
-      <div
-        className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 opacity-40 lg:opacity-60 pointer-events-none"
-        aria-hidden="true"
-      >
-        <Suspense fallback={null}>
-          <HeroOrb />
-        </Suspense>
-      </div>
-
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 w-full pt-24 pb-16">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
@@ -313,14 +303,27 @@ export default function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right — Portrait */}
+          {/* Right — Portrait with 3D orb behind, perfectly centered */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center lg:justify-end"
+            className="relative flex items-center justify-center min-h-[400px]"
           >
-            <PortraitCard />
+            {/* 3D orb background */}
+            <div
+              className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-60"
+              aria-hidden="true"
+            >
+              <Suspense fallback={null}>
+                <HeroOrb />
+              </Suspense>
+            </div>
+
+            {/* Portrait in front — centered over the orb */}
+            <div className="relative z-10 flex items-center justify-center">
+              <PortraitCard />
+            </div>
           </motion.div>
         </div>
       </div>
