@@ -88,7 +88,7 @@ function PortraitCard() {
   }, [])
 
   return (
-    <div className="perspective-1000 w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto lg:mx-0">
+    <div className="perspective-1000">
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
@@ -141,9 +141,9 @@ function PortraitCard() {
 
           {/* Bottom gradient overlay */}
           <div
-            className="absolute bottom-0 left-0 right-0 h-40 z-10 pointer-events-none"
+            className="absolute bottom-0 left-0 right-0 h-28 sm:h-36 z-10 pointer-events-none"
             style={{
-              background: 'linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 100%)',
+              background: 'linear-gradient(to top, rgba(8,8,8,0.85) 0%, transparent 100%)',
             }}
           />
 
@@ -218,24 +218,33 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-bg-base"
+      className="relative h-screen min-h-[640px] max-h-[1080px] flex items-center justify-center overflow-hidden bg-bg-base"
     >
       {/* Animated background gradient mesh */}
       <div className="gradient-mesh" aria-hidden="true" />
 
-      {/* 3D Orb — right background */}
+      {/* 3D Orb + Portrait — share the same container, same center point */}
       <div
-        className="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 lg:w-1/2 opacity-30 sm:opacity-40 lg:opacity-60 pointer-events-none"
+        className="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 lg:w-1/2 opacity-20 sm:opacity-30 lg:opacity-50 pointer-events-none flex items-center justify-center"
         aria-hidden="true"
       >
         <Suspense fallback={null}>
           <HeroOrb />
         </Suspense>
       </div>
+      {/* Portrait — same position as orb on desktop */}
+      <div
+        className="hidden lg:flex absolute right-0 top-0 bottom-0 items-center justify-center pointer-events-none"
+        style={{ width: '50%' }}
+      >
+        <div className="pointer-events-auto">
+          <PortraitCard />
+        </div>
+      </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full pt-20 sm:pt-24 lg:pt-28 pb-12 sm:pb-16 lg:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-16 xl:gap-20 items-center px-5 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto w-full h-full flex items-center pt-20 sm:pt-24 lg:pt-28 pb-12 sm:pb-16 lg:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-16 xl:gap-20 items-center w-full px-5 sm:px-6 lg:px-8">
 
           {/* Left — Text content */}
           <motion.div
@@ -312,12 +321,12 @@ export default function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right — Portrait */}
+          {/* Right — Portrait (mobile only, in grid) */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center lg:justify-end"
+            className="flex justify-center items-center lg:hidden"
           >
             <PortraitCard />
           </motion.div>

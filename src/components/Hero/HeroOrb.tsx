@@ -171,12 +171,12 @@ function OrbScene() {
 
 export default function HeroOrb() {
   return (
-    <div className="absolute inset-0 w-full h-full">
+    <div className="w-full h-full">
       <Canvas
-        camera={{ position: [0, 0, 7], fov: 40 }}
+        camera={{ position: [0, 0, 6], fov: 40 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        style={{ background: 'transparent' }}
+        style={{ background: 'transparent', width: '100%', height: '100%' }}
       >
         <Suspense fallback={null}>
           <OrbScene />
