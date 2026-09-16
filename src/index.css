@@ -400,8 +400,8 @@ body {
    ============================================================ */
 .portrait-img {
   aspect-ratio: 3/4;
-  max-height: 52vh;
-  max-width: 380px;
+  max-height: 66vh;
+  max-width: 440px;
   width: 100%;
   object-fit: cover;
   display: block;
@@ -409,22 +409,22 @@ body {
 
 @media (max-width: 480px) {
   .portrait-img {
-    max-height: 38vh;
-    max-width: 280px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .portrait-img {
     max-height: 48vh;
     max-width: 320px;
   }
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+  .portrait-img {
+    max-height: 60vh;
+    max-width: 380px;
+  }
+}
+
 @media (min-width: 1280px) {
   .portrait-img {
-    max-height: 54vh;
-    max-width: 400px;
+    max-height: 70vh;
+    max-width: 460px;
   }
 }
 

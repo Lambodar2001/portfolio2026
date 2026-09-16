@@ -37,11 +37,13 @@ function OrbCore() {
         <mesh ref={meshRef}>
           <icosahedronGeometry args={[1.2, 1]} />
           <meshStandardMaterial
-            color="#0a0a12"
-            emissive="#1a1a3a"
-            emissiveIntensity={0.3}
-            roughness={0.1}
-            metalness={0.9}
+            color="#ffffff"
+            emissive="#ffffff"
+            emissiveIntensity={0.02}
+            transparent
+            opacity={0}
+            roughness={0.3}
+            metalness={0.5}
           />
         </mesh>
 
@@ -49,10 +51,10 @@ function OrbCore() {
         <mesh ref={wireRef} scale={1.35}>
           <icosahedronGeometry args={[1.2, 1]} />
           <meshBasicMaterial
-            color="#e4ff00"
+            color="#ffffff"
             wireframe
             transparent
-            opacity={0.15}
+            opacity={0.08}
           />
         </mesh>
 
@@ -60,7 +62,7 @@ function OrbCore() {
         <mesh scale={1.6} rotation={[0.5, 0.3, 0.1]}>
           <icosahedronGeometry args={[1.2, 1]} />
           <meshBasicMaterial
-            color="#00d4ff"
+            color="#6366f1"
             wireframe
             transparent
             opacity={0.06}
@@ -71,11 +73,11 @@ function OrbCore() {
         <mesh>
           <sphereGeometry args={[0.8, 32, 32]} />
           <meshStandardMaterial
-            color="#e4ff00"
-            emissive="#e4ff00"
-            emissiveIntensity={0.15}
+            color="#6366f1"
+            emissive="#6366f1"
+            emissiveIntensity={0.08}
             transparent
-            opacity={0.08}
+            opacity={0.03}
             roughness={0}
             metalness={1}
           />
@@ -136,10 +138,10 @@ function ParticleField() {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.025}
+        size={0.035}
         vertexColors
         transparent
-        opacity={0.6}
+        opacity={0.35}
         sizeAttenuation
       />
     </points>
@@ -149,19 +151,19 @@ function ParticleField() {
 function OrbScene() {
   return (
     <>
-      <ambientLight intensity={0.1} />
-      <pointLight position={[5, 5, 5]} intensity={1} color="#e4ff00" />
-      <pointLight position={[-5, -3, 3]} intensity={0.8} color="#00d4ff" />
-      <pointLight position={[0, 0, 4]} intensity={0.4} color="#8b5cf6" />
+      <ambientLight intensity={0.15} />
+      <pointLight position={[5, 5, 5]} intensity={0.3} color="#ffffff" />
+      <pointLight position={[-5, -3, 3]} intensity={0.2} color="#8b5cf6" />
+      <pointLight position={[0, 0, 4]} intensity={0.15} color="#6366f1" />
 
       <OrbCore />
       <ParticleField />
 
       <EffectComposer>
         <Bloom
-          luminanceThreshold={0.1}
-          luminanceSmoothing={0.9}
-          intensity={1.2}
+          luminanceThreshold={0.35}
+          luminanceSmoothing={0.95}
+          intensity={0.3}
           mipmapBlur
         />
       </EffectComposer>
@@ -176,7 +178,7 @@ export default function HeroOrb() {
         camera={{ position: [0, 0, 6], fov: 40 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        style={{ background: 'transparent', width: '100%', height: '100%' }}
+        style={{ background: 'transparent', width: '100%', height: '100%', pointerEvents: 'none' }}
       >
         <Suspense fallback={null}>
           <OrbScene />

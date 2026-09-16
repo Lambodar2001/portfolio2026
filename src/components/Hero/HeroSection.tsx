@@ -107,10 +107,8 @@ function PortraitCard() {
         <div
           className={`relative rounded-3xl overflow-hidden portrait-card ${scanVisible ? 'portrait-scan' : ''}`}
           style={{
-            boxShadow: isHovered
-              ? '0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(228,255,0,0.08)'
-              : '0 24px 80px rgba(0,0,0,0.7)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.2)',
+            border: '1px solid rgba(255,255,255,0.12)',
           }}
         >
           {/* Holographic rim */}
@@ -188,10 +186,10 @@ function PortraitCard() {
 
         {/* Floating ambient glow behind card */}
         <div
-          className="absolute -inset-6 rounded-3xl -z-10 pointer-events-none"
+          className="absolute -inset-2 rounded-3xl -z-10 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(228,255,0,0.05) 0%, transparent 70%)',
-            filter: 'blur(20px)',
+            background: 'radial-gradient(ellipse at center, rgba(228,255,0,0.04) 0%, transparent 70%)',
+            filter: 'blur(15px)',
           }}
         />
       </motion.div>
@@ -220,26 +218,29 @@ export default function HeroSection() {
       id="hero"
       className="relative h-screen min-h-[640px] max-h-[1080px] flex items-center justify-center overflow-hidden bg-bg-base"
     >
+      {/* Same background for entire section — both sides equal */}
+      <div className="absolute inset-0 bg-bg-base" aria-hidden="true" />
+
       {/* Animated background gradient mesh */}
       <div className="gradient-mesh" aria-hidden="true" />
 
-      {/* 3D Orb + Portrait — share the same container, same center point */}
+      {/* 3D Orb — same background, no opacity mask */}
       <div
-        className="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 lg:w-1/2 opacity-20 sm:opacity-30 lg:opacity-50 pointer-events-none flex items-center justify-center"
+        className="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 lg:w-1/2 flex items-center justify-center pointer-events-none"
+        style={{ zIndex: 15 }}
         aria-hidden="true"
       >
         <Suspense fallback={null}>
           <HeroOrb />
         </Suspense>
       </div>
-      {/* Portrait — same position as orb on desktop */}
+
+      {/* Portrait — centered over orb */}
       <div
-        className="hidden lg:flex absolute right-0 top-0 bottom-0 items-center justify-center pointer-events-none"
-        style={{ width: '50%' }}
+        className="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 lg:w-1/2 flex items-center justify-center"
+        style={{ zIndex: 16 }}
       >
-        <div className="pointer-events-auto">
-          <PortraitCard />
-        </div>
+        <PortraitCard />
       </div>
 
       {/* Content */}
@@ -251,7 +252,7 @@ export default function HeroSection() {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="space-y-6 sm:space-y-7 lg:space-y-8"
+            className="lg:col-span-1 space-y-6 sm:space-y-7 lg:space-y-8"
           >
             {/* Sub-label */}
             <motion.div variants={fadeUp}>
@@ -319,16 +320,6 @@ export default function HeroSection() {
                 ))}
               </div>
             </motion.div>
-          </motion.div>
-
-          {/* Right — Portrait (mobile only, in grid) */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center items-center lg:hidden"
-          >
-            <PortraitCard />
           </motion.div>
         </div>
       </div>
