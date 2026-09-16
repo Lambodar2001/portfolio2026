@@ -88,7 +88,7 @@ function PortraitCard() {
   }, [])
 
   return (
-    <div className="perspective-1000 w-full max-w-sm mx-auto lg:mx-0">
+    <div className="perspective-1000 w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto lg:mx-0">
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
@@ -134,8 +134,7 @@ function PortraitCard() {
           <img
             src={profile.image}
             alt={profile.fullName}
-            className="w-full h-full object-cover block"
-            style={{ aspectRatio: '3/4', minHeight: '400px', maxHeight: '520px' }}
+            className="w-full h-full object-cover block portrait-img"
             loading="eager"
             fetchPriority="high"
           />
@@ -226,7 +225,7 @@ export default function HeroSection() {
 
       {/* 3D Orb — right background */}
       <div
-        className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 opacity-40 lg:opacity-60 pointer-events-none"
+        className="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 lg:w-1/2 opacity-30 sm:opacity-40 lg:opacity-60 pointer-events-none"
         aria-hidden="true"
       >
         <Suspense fallback={null}>
@@ -235,15 +234,15 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 w-full pt-24 pb-16">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto w-full pt-20 sm:pt-24 lg:pt-28 pb-12 sm:pb-16 lg:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-16 xl:gap-20 items-center px-5 sm:px-6 lg:px-8">
 
           {/* Left — Text content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="space-y-8"
+            className="space-y-6 sm:space-y-7 lg:space-y-8"
           >
             {/* Sub-label */}
             <motion.div variants={fadeUp}>
@@ -261,7 +260,7 @@ export default function HeroSection() {
             {/* Description */}
             <motion.p
               variants={fadeUp}
-              className="text-lg text-text-secondary max-w-md leading-relaxed"
+              className="text-base sm:text-lg text-text-secondary max-w-md leading-relaxed"
             >
               {profile.description}
             </motion.p>
@@ -299,11 +298,11 @@ export default function HeroSection() {
             </motion.div>
 
             {/* Stats */}
-            <motion.div variants={fadeUp} className="pt-4">
-              <div className="flex gap-8 flex-wrap">
+            <motion.div variants={fadeUp} className="pt-2 sm:pt-4">
+              <div className="flex gap-6 sm:gap-8 flex-wrap">
                 {stats.slice(0, 3).map((stat) => (
                   <div key={stat.label}>
-                    <div className="font-display font-bold text-2xl text-text-primary">
+                    <div className="font-display font-bold text-xl sm:text-2xl text-text-primary">
                       {stat.value}{stat.suffix}
                     </div>
                     <div className="text-xs text-text-muted mt-0.5">{stat.label}</div>
@@ -330,7 +329,7 @@ export default function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="hidden sm:flex absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2"
       >
         <div className="text-label text-text-muted" style={{ fontSize: '0.6rem' }}>SCROLL</div>
         <motion.div
