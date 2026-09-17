@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { profile, stats } from '../../data/portfolio'
+import HeroParticleCanvas from './HeroParticleCanvas'
 
 const HeroOrb = lazy(() => import('./HeroOrb'))
 
@@ -224,10 +225,15 @@ export default function HeroSection() {
       {/* Animated background gradient mesh */}
       <div className="gradient-mesh" aria-hidden="true" />
 
-      {/* 3D Orb — same background, no opacity mask */}
+      {/* Unified particle canvas — one continuous layer covering the full Hero */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true" style={{ zIndex: 1 }}>
+        <HeroParticleCanvas />
+      </div>
+
+      {/* Scroll indicator */}
       <div
         className="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 lg:w-1/2 flex items-center justify-center pointer-events-none"
-        style={{ zIndex: 15 }}
+        style={{ zIndex: 14 }}
         aria-hidden="true"
       >
         <Suspense fallback={null}>

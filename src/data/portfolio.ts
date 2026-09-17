@@ -155,6 +155,7 @@ export interface Project {
   impact: string
   accentColor: string
   href?: string
+  image?: string
 }
 
 export const projects: Project[] = [
@@ -172,13 +173,14 @@ export const projects: Project[] = [
   {
     id: 2,
     number: '02',
-    title: 'AI-Powered Mobile Application',
+    title: 'KharidoBecho — Buy & Sell Marketplace',
     description:
-      'Cross-platform mobile solution with machine learning features for intelligent user recommendations and real-time analytics.',
-    tags: ['React Native', 'Python', 'TensorFlow', 'AWS', 'Firebase'],
-    impact: '2M+ downloads',
-    accentColor: '#00d4ff',
+      'OLX-style marketplace app built with React Native, Expo & TS. Multi-step listings, Socket.io chat, JWT auth with secure storage using Adapter & Factory patterns.',
+    tags: ['React Native', 'Expo', 'TypeScript', 'Socket.io', 'JWT', 'Node.js'],
+    impact: 'Scalable multi-category marketplace',
+    accentColor: '#23C65F',
     href: '#',
+    image: '/assets/projects/proj2.png',
   },
   {
     id: 3,

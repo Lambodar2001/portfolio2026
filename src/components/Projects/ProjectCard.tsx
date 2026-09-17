@@ -3,12 +3,12 @@ import { motion } from 'framer-motion'
 import { type Project } from '../../data/portfolio'
 import { useTilt } from './useTilt'
 
-const PROJECT_IMAGE = '/img1.png'
+const DEFAULT_PROJECT_IMAGE = '/img1.png'
 
 interface Props { project: Project; index: number }
 
 const CATEGORY: Record<number, string> = {
-  2: 'MOBILE · AI',
+  2: 'MOBILE · MARKETPLACE',
   3: 'WEB · ANALYTICS',
 }
 
@@ -64,7 +64,7 @@ export default function ProjectCard({ project, index }: Props) {
           {/* ── Image ── */}
           <div className="relative overflow-hidden flex-shrink-0" style={{ height: 210 }}>
             <motion.img
-              src={PROJECT_IMAGE}
+              src={project.image || DEFAULT_PROJECT_IMAGE}
               alt={project.title}
               className="absolute inset-0 w-full h-full object-cover"
               animate={{ scale: hovered ? 1.06 : 1 }}

@@ -20,9 +20,9 @@ function Dot({ x, y, size, delay, color }: {
   )
 }
 
-const DOT_COUNT = 60
+const DOT_COUNT = 80
 
-export default function ParticleDots() {
+export default function ParticleBackground() {
   const dots = useMemo(() => {
     const result: { x: number; y: number; size: number; delay: number; color: string }[] = []
     for (let i = 0; i < DOT_COUNT; i++) {
@@ -30,7 +30,7 @@ export default function ParticleDots() {
       result.push({
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: 2 + Math.random() * 3,
+        size: 1.5 + Math.random() * 3,
         delay: Math.random() * 5,
         color: isAccent ? '#e4ff00' : '#00d4ff',
       })
@@ -39,7 +39,11 @@ export default function ParticleDots() {
   }, [])
 
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+    <div
+      className="fixed inset-0 pointer-events-none overflow-hidden w-screen h-screen"
+      style={{ zIndex: 1 }}
+      aria-hidden="true"
+    >
       {dots.map((dot, i) => (
         <Dot key={i} {...dot} />
       ))}

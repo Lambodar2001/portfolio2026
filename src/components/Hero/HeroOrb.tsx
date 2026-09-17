@@ -4,7 +4,7 @@ import { Float } from '@react-three/drei'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
-// Abstract floating 3D object — icosahedron core + wireframe shell + particles
+// Abstract floating 3D object — icosahedron core + wireframe shell
 function OrbCore() {
   const meshRef = useRef<THREE.Mesh>(null)
   const wireRef = useRef<THREE.Mesh>(null)
@@ -87,67 +87,6 @@ function OrbCore() {
   )
 }
 
-function ParticleField() {
-  const pointsRef = useRef<THREE.Points>(null)
-
-  const { positions, colors } = (() => {
-    const count = 300
-    const pos = new Float32Array(count * 3)
-    const col = new Float32Array(count * 3)
-    for (let i = 0; i < count; i++) {
-      // Distribute in a sphere shell
-      const theta = Math.random() * Math.PI * 2
-      const phi = Math.acos(2 * Math.random() - 1)
-      const r = 2.5 + Math.random() * 2.5
-      pos[i * 3] = r * Math.sin(phi) * Math.cos(theta)
-      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta)
-      pos[i * 3 + 2] = r * Math.cos(phi)
-
-      // Alternate between accent colors
-      const t = Math.random()
-      if (t < 0.5) {
-        col[i * 3] = 0.894; col[i * 3 + 1] = 1.0; col[i * 3 + 2] = 0.0
-      } else {
-        col[i * 3] = 0.0; col[i * 3 + 1] = 0.831; col[i * 3 + 2] = 1.0
-      }
-    }
-    return { positions: pos, colors: col }
-  })()
-
-  useFrame(({ clock }) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y = clock.elapsedTime * 0.04
-      pointsRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.025) * 0.1
-    }
-  })
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={positions.length / 3}
-          array={positions}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attach="attributes-color"
-          count={colors.length / 3}
-          array={colors}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.035}
-        vertexColors
-        transparent
-        opacity={0.35}
-        sizeAttenuation
-      />
-    </points>
-  )
-}
-
 function OrbScene() {
   return (
     <>
@@ -157,7 +96,6 @@ function OrbScene() {
       <pointLight position={[0, 0, 4]} intensity={0.15} color="#6366f1" />
 
       <OrbCore />
-      <ParticleField />
 
       <EffectComposer>
         <Bloom
