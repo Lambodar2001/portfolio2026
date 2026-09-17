@@ -55,8 +55,8 @@ export default function TestimonialsSection() {
   const testimonial = testimonials[activeIdx]
 
   return (
-    <section className="relative py-20 lg:py-28 bg-bg-base overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="relative py-12 lg:py-28 bg-bg-base overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section label */}
         <motion.div
@@ -64,7 +64,7 @@ export default function TestimonialsSection() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: false }}
-          className="flex items-center gap-4 mb-16"
+          className="flex items-center gap-4 mb-10 sm:mb-14 lg:mb-16"
         >
           <div className="w-8 h-px bg-accent" />
           <span className="text-label text-text-muted">CLIENT FEEDBACK</span>
@@ -75,7 +75,7 @@ export default function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: false }}
-          className="mb-16"
+          className="mb-10 sm:mb-14 lg:mb-16"
         >
           <h2 className="text-heading font-display font-bold text-text-primary mb-2">
             Trusted by
@@ -92,7 +92,7 @@ export default function TestimonialsSection() {
         >
           <div className="max-w-4xl">
             {/* Stars */}
-            <div className="flex gap-1 mb-8">
+            <div className="flex gap-1 mb-6 sm:mb-8">
               {[...Array(5)].map((_, i) => (
                 <motion.svg
                   key={i}
@@ -111,7 +111,7 @@ export default function TestimonialsSection() {
             </div>
 
             {/* Quote */}
-            <div className="overflow-hidden mb-12" style={{ minHeight: '120px' }}>
+            <div className="overflow-hidden mb-8 sm:mb-10 lg:mb-12" style={{ minHeight: '120px' }}>
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.blockquote
                   key={activeIdx}
@@ -120,11 +120,11 @@ export default function TestimonialsSection() {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className="font-display text-2xl lg:text-3xl font-medium text-text-primary leading-relaxed"
+                  className="font-display text-lg sm:text-2xl lg:text-3xl font-medium text-text-primary leading-relaxed"
                 >
-                  <span className="text-accent opacity-50 text-5xl leading-none">"</span>
+                  <span className="text-accent opacity-50 text-4xl sm:text-5xl leading-none">"</span>
                   {testimonial.text}
-                  <span className="text-accent opacity-50 text-5xl leading-none">"</span>
+                  <span className="text-accent opacity-50 text-4xl sm:text-5xl leading-none">"</span>
                 </motion.blockquote>
               </AnimatePresence>
             </div>
@@ -137,11 +137,11 @@ export default function TestimonialsSection() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="flex items-center gap-4 mb-12"
+                className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12"
               >
                 {/* Avatar */}
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center font-display font-bold text-sm"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-display font-bold text-xs sm:text-sm flex-shrink-0"
                   style={{
                     background: 'var(--bg-surface-2)',
                     border: '1px solid var(--border-hover)',
@@ -150,11 +150,11 @@ export default function TestimonialsSection() {
                 >
                   {testimonial.avatar}
                 </div>
-                <div>
-                  <div className="font-display font-semibold text-text-primary text-sm">
+                <div className="min-w-0">
+                  <div className="font-display font-semibold text-text-primary text-xs sm:text-sm">
                     {testimonial.author}
                   </div>
-                  <div className="text-text-muted text-xs font-mono">
+                  <div className="text-text-muted text-[0.65rem] sm:text-xs font-mono truncate">
                     {testimonial.role} · {testimonial.company}
                   </div>
                 </div>
@@ -162,13 +162,13 @@ export default function TestimonialsSection() {
             </AnimatePresence>
 
             {/* Controls */}
-            <div className="flex items-center gap-6">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-6">
               {/* Prev / Next */}
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 <button
                   onClick={prev}
                   aria-label="Previous testimonial"
-                  className="w-10 h-10 rounded-full border border-[var(--border)] flex items-center justify-center text-text-muted hover:text-text-primary hover:border-[var(--border-hover)] transition-all"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[var(--border)] flex items-center justify-center text-text-muted hover:text-text-primary hover:border-[var(--border-hover)] transition-all"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -177,7 +177,7 @@ export default function TestimonialsSection() {
                 <button
                   onClick={next}
                   aria-label="Next testimonial"
-                  className="w-10 h-10 rounded-full border border-[var(--border)] flex items-center justify-center text-text-muted hover:text-text-primary hover:border-[var(--border-hover)] transition-all"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[var(--border)] flex items-center justify-center text-text-muted hover:text-text-primary hover:border-[var(--border-hover)] transition-all"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -203,7 +203,7 @@ export default function TestimonialsSection() {
                 ))}
               </div>
 
-              <div className="text-xs text-text-muted font-mono ml-auto">
+              <div className="text-[0.65rem] sm:text-xs text-text-muted font-mono sm:ml-auto">
                 {String(activeIdx + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
               </div>
             </div>

@@ -118,8 +118,8 @@ export default function ContactSection() {
   ]
 
   return (
-    <section id="contact" className="relative py-20 lg:py-28 bg-bg-base">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="contact" className="relative py-12 lg:py-28 bg-bg-base">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section label */}
         <motion.div
@@ -127,14 +127,14 @@ export default function ContactSection() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: false }}
-          className="flex items-center gap-4 mb-16"
+          className="flex items-center gap-4 mb-10 sm:mb-14 lg:mb-16"
         >
           <div className="w-8 h-px bg-accent" />
           <span className="text-label text-text-muted">CONTACT</span>
         </motion.div>
 
         {/* Big statement */}
-        <div className="mb-20">
+        <div className="mb-14 sm:mb-16 lg:mb-20">
           {["LET'S BUILD", 'SOMETHING', 'IMPOSSIBLE.'].map((line, i) => (
             <div key={i} style={{ overflow: 'hidden' }}>
               <motion.div
@@ -151,20 +151,20 @@ export default function ContactSection() {
           ))}
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-24">
           {/* Left — Social links + info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             viewport={{ once: false }}
-            className="space-y-8"
+            className="space-y-6 sm:space-y-8"
           >
-            <p className="text-lg text-text-secondary leading-relaxed max-w-md">
+            <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-md">
               Have a project in mind or just want to say hello? I'm always open to interesting conversations and exciting opportunities.
             </p>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4">
               {formContacts.map((c) => (
                 <SocialCard key={c.label} label={c.label} href={c.href} icon={c.icon} />
               ))}
@@ -202,12 +202,12 @@ export default function ContactSection() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
-                  className="card p-10 text-center space-y-4"
+                  className="card p-8 sm:p-10 text-center space-y-4"
                 >
-                  <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center mx-auto text-3xl">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center mx-auto text-2xl sm:text-3xl">
                     ✓
                   </div>
-                  <h3 className="font-display font-bold text-xl text-text-primary">Message Sent!</h3>
+                  <h3 className="font-display font-bold text-lg sm:text-xl text-text-primary">Message Sent!</h3>
                   <p className="text-text-secondary text-sm">
                     Thanks for reaching out. I'll get back to you as soon as possible.
                   </p>
@@ -226,7 +226,7 @@ export default function ContactSection() {
                   exit={{ opacity: 0 }}
                   onSubmit={handleSubmit}
                   noValidate
-                  className="card p-8 space-y-6"
+                  className="card p-6 sm:p-8 space-y-4 sm:space-y-6"
                 >
                   {/* Name */}
                   <div>
@@ -277,7 +277,7 @@ export default function ContactSection() {
                     </label>
                     <textarea
                       id="message"
-                      rows={5}
+                      rows={4}
                       placeholder="Tell me about your project..."
                       value={formData.message}
                       onChange={(e) => handleChange('message', e.target.value)}

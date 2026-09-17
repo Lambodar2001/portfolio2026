@@ -62,7 +62,7 @@ export default function ProjectCard({ project, index }: Props) {
           />
 
           {/* ── Image ── */}
-          <div className="relative overflow-hidden flex-shrink-0" style={{ height: 210 }}>
+          <div className="relative overflow-hidden flex-shrink-0" style={{ height: 180 }}>
             <motion.img
               src={project.image || DEFAULT_PROJECT_IMAGE}
               alt={project.title}
@@ -80,15 +80,15 @@ export default function ProjectCard({ project, index }: Props) {
             />
 
             {/* Number + category row */}
-            <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
+            <div className="absolute top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 flex items-center justify-between">
               <div
-                className="font-display font-black text-xl select-none"
+                className="font-display font-black text-base sm:text-xl select-none"
                 style={{ color: `${project.accentColor}60` }}
               >
                 {project.number}
               </div>
               <div
-                className="text-[0.58rem] font-mono px-2.5 py-1 rounded-full border backdrop-blur-md"
+                className="text-[0.55rem] sm:text-[0.58rem] font-mono px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border backdrop-blur-md"
                 style={{
                   color: project.accentColor,
                   borderColor: `${project.accentColor}35`,
@@ -102,7 +102,7 @@ export default function ProjectCard({ project, index }: Props) {
           </div>
 
           {/* ── Content ── */}
-          <div className="flex flex-col flex-1 p-5 gap-3">
+          <div className="flex flex-col flex-1 p-4 sm:p-5 gap-2.5 sm:gap-3">
 
             {/* Impact */}
             <div className="flex items-center gap-2">

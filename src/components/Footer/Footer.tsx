@@ -58,11 +58,11 @@ export default function Footer() {
   }
 
   return (
-    <footer className="relative border-t border-[var(--border)] bg-bg-base py-16 px-6 lg:px-8">
+    <footer className="relative border-t border-[var(--border)] bg-bg-base py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
 
         {/* Top section */}
-        <div className="grid md:grid-cols-3 gap-12 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 mb-12 sm:mb-16">
 
           {/* Brand */}
           <motion.div
@@ -86,8 +86,8 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h4 className="text-label text-text-muted mb-5" style={{ fontSize: '0.65rem' }}>NAVIGATION</h4>
-            <ul className="space-y-3">
+            <h4 className="text-label text-text-muted mb-4 sm:mb-5" style={{ fontSize: '0.65rem' }}>NAVIGATION</h4>
+            <ul className="space-y-2.5 sm:space-y-3">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <button
@@ -107,7 +107,7 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h4 className="text-label text-text-muted mb-5" style={{ fontSize: '0.65rem' }}>CONNECT</h4>
+            <h4 className="text-label text-text-muted mb-4 sm:mb-5" style={{ fontSize: '0.65rem' }}>CONNECT</h4>
             <div className="flex flex-wrap gap-2">
               {socials.map((social) => (
                 <motion.a
@@ -125,7 +125,7 @@ export default function Footer() {
               ))}
             </div>
 
-            <div className="mt-6">
+            <div className="mt-5 sm:mt-6">
               <a
                 href={profile.resumeUrl}
                 target="_blank"
@@ -142,16 +142,16 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="divider-accent mb-8" />
+        <div className="divider-accent mb-6 sm:mb-8" />
 
         {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-text-muted font-mono">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+          <p className="text-[0.65rem] sm:text-xs text-text-muted font-mono">
             © {currentYear} {profile.fullName}. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-6">
-            <span className="text-xs text-text-muted font-mono">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+            <span className="text-[0.65rem] sm:text-xs text-text-muted font-mono">
               Built with React · TypeScript · Three.js
             </span>
             <BackToTop />

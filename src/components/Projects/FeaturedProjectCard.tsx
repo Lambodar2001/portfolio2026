@@ -103,7 +103,7 @@ export default function FeaturedProjectCard({ project }: Props) {
           <div className="grid grid-cols-1 lg:grid-cols-[55%_45%]">
 
             {/* ── Left: 3D Image Carousel ── */}
-            <div className="relative overflow-hidden" style={{ minHeight: 340, perspective: '1000px' }}>
+            <div className="relative overflow-hidden" style={{ minHeight: 250, perspective: '1000px' }}>
 
               {/* Image carousel container */}
               <div className="absolute inset-0 w-full h-full" style={{ transformStyle: 'preserve-3d' }}>
@@ -184,22 +184,22 @@ export default function FeaturedProjectCard({ project }: Props) {
 
               {/* Image overlays */}
               <div className="absolute inset-0 z-[6]" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0.3) 100%)' }} />
-              <div className="absolute inset-0 lg:hidden z-[6]" style={{ background: 'linear-gradient(to bottom, transparent 50%, var(--bg-surface))' }} />
+              <div className="absolute inset-0 lg:hidden z-[6]" style={{ background: 'linear-gradient(to bottom, transparent 40%, var(--bg-surface))' }} />
 
               {/* Navigation Controls */}
-              <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between px-4 z-20">
+              <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between px-3 sm:px-4 z-20">
                 <motion.button
                   onClick={handlePrev}
                   whileHover={{ scale: 1.1, x: -4 }}
                   whileTap={{ scale: 0.9 }}
-                  className="w-10 h-10 rounded-full backdrop-blur-xl flex items-center justify-center border transition-all"
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-full backdrop-blur-xl flex items-center justify-center border transition-all"
                   style={{
                     background: `${project.accentColor}15`,
                     borderColor: `${project.accentColor}40`,
                     color: project.accentColor,
                   }}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
                   </svg>
                 </motion.button>
@@ -208,21 +208,21 @@ export default function FeaturedProjectCard({ project }: Props) {
                   onClick={handleNext}
                   whileHover={{ scale: 1.1, x: 4 }}
                   whileTap={{ scale: 0.9 }}
-                  className="w-10 h-10 rounded-full backdrop-blur-xl flex items-center justify-center border transition-all"
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-full backdrop-blur-xl flex items-center justify-center border transition-all"
                   style={{
                     background: `${project.accentColor}15`,
                     borderColor: `${project.accentColor}40`,
                     color: project.accentColor,
                   }}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                   </svg>
                 </motion.button>
               </div>
 
               {/* Image indicators */}
-              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
                 {CAR_IMAGES.map((_, i) => (
                   <motion.button
                     key={i}
@@ -255,9 +255,9 @@ export default function FeaturedProjectCard({ project }: Props) {
               </div>
 
               {/* Featured badge */}
-              <div className="absolute top-5 left-5 z-20">
+              <div className="absolute top-3 left-3 sm:top-5 sm:left-5 z-20">
                 <div
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[0.65rem] font-mono font-bold backdrop-blur-md border"
+                  className="flex items-center gap-2 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[0.55rem] sm:text-[0.65rem] font-mono font-bold backdrop-blur-md border"
                   style={{
                     background: `${project.accentColor}15`,
                     borderColor: `${project.accentColor}40`,
@@ -284,9 +284,9 @@ export default function FeaturedProjectCard({ project }: Props) {
 
               {/* Project number */}
               <div
-                className="absolute bottom-5 left-6 font-display font-black select-none z-20"
+                className="absolute bottom-3 left-3 sm:bottom-5 sm:left-6 font-display font-black select-none z-20"
                 style={{
-                  fontSize: '6rem',
+                  fontSize: 'clamp(3rem, 8vw, 6rem)',
                   lineHeight: 1,
                   color: `${project.accentColor}08`,
                   WebkitTextStroke: `1.5px ${project.accentColor}35`,
@@ -299,7 +299,7 @@ export default function FeaturedProjectCard({ project }: Props) {
 
               {/* Image counter */}
               <div
-                className="absolute top-5 right-5 px-3 py-1.5 rounded-full text-xs font-mono font-bold backdrop-blur-md border z-20"
+                className="absolute top-3 right-3 sm:top-5 sm:right-5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[0.6rem] sm:text-xs font-mono font-bold backdrop-blur-md border z-20"
                 style={{
                   background: `${project.accentColor}10`,
                   borderColor: `${project.accentColor}30`,
@@ -311,7 +311,7 @@ export default function FeaturedProjectCard({ project }: Props) {
             </div>
 
             {/* ── Right: Content ── */}
-            <div className="relative flex flex-col justify-between p-8 lg:p-10 gap-6 z-10">
+            <div className="relative flex flex-col justify-between p-5 sm:p-7 lg:p-10 gap-4 sm:gap-6 z-10">
 
               {/* Top meta */}
               <div className="flex items-center justify-between">
@@ -320,23 +320,23 @@ export default function FeaturedProjectCard({ project }: Props) {
               </div>
 
               {/* Title */}
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <motion.h2
                   className="font-display font-black leading-none"
-                  style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
+                  style={{ fontSize: 'clamp(1.4rem, 3.5vw, 2.4rem)' }}
                   animate={{ color: hovered ? project.accentColor : 'var(--text-primary)' }}
                   transition={{ duration: 0.3 }}
                 >
                   {project.title}
                 </motion.h2>
-                <p className="text-text-secondary leading-relaxed" style={{ fontSize: '0.92rem' }}>
+                <p className="text-text-secondary leading-relaxed text-sm">
                   {project.description}
                 </p>
               </div>
 
               {/* Impact stat */}
               <div
-                className="flex items-center gap-3 py-4 px-5 rounded-2xl border"
+                className="flex items-center gap-3 py-3 px-4 sm:py-4 sm:px-5 rounded-2xl border"
                 style={{
                   background: `${project.accentColor}06`,
                   borderColor: `${project.accentColor}20`,
@@ -348,15 +348,15 @@ export default function FeaturedProjectCard({ project }: Props) {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs text-text-muted font-mono">KEY IMPACT</div>
-                  <div className="font-display font-bold text-sm" style={{ color: project.accentColor }}>{project.impact}</div>
+                  <div className="text-[0.65rem] sm:text-xs text-text-muted font-mono">KEY IMPACT</div>
+                  <div className="font-display font-bold text-xs sm:text-sm" style={{ color: project.accentColor }}>{project.impact}</div>
                 </div>
               </div>
 
               {/* Tags */}
               <div className="space-y-2">
                 <div className="text-[0.6rem] font-mono text-text-muted tracking-widest">TECH STACK</div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {project.tags.map((tag, i) => (
                     <motion.span
                       key={tag}
@@ -366,7 +366,7 @@ export default function FeaturedProjectCard({ project }: Props) {
                       viewport={{ once: true }}
                       className="tag"
                       style={{
-                        fontSize: '0.65rem',
+                        fontSize: '0.6rem',
                         borderColor: hovered ? `${project.accentColor}30` : 'var(--border)',
                         color: hovered ? `${project.accentColor}cc` : 'var(--text-muted)',
                         transition: 'all 0.3s',
@@ -379,14 +379,14 @@ export default function FeaturedProjectCard({ project }: Props) {
               </div>
 
               {/* CTAs */}
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <motion.a
                   href={project.href ?? '#'}
                   target={project.href !== '#' ? '_blank' : undefined}
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-display font-semibold text-sm transition-all"
+                  className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm transition-all"
                   style={{
                     background: project.accentColor,
                     color: '#080808',
@@ -402,7 +402,7 @@ export default function FeaturedProjectCard({ project }: Props) {
                   href="#"
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-display font-semibold text-sm border transition-all"
+                  className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm border transition-all"
                   style={{
                     borderColor: 'var(--border)',
                     color: 'var(--text-secondary)',

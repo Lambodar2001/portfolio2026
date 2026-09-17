@@ -5,8 +5,8 @@ import ProjectCard from './ProjectCard'
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="relative py-20 lg:py-28 bg-bg-base">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="projects" className="relative py-12 lg:py-28 bg-bg-base">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ── Section label ── */}
         <motion.div
@@ -21,14 +21,14 @@ export default function ProjectsSection() {
         </motion.div>
 
         {/* ── Heading row ── */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6 mb-10 sm:mb-14">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             viewport={{ once: false }}
             className="font-display font-black text-text-primary leading-none"
-            style={{ fontSize: 'clamp(2.4rem, 5vw, 4rem)' }}
+            style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}
           >
             Projects That
             <br />
@@ -52,7 +52,7 @@ export default function ProjectsSection() {
         </div>
 
         {/* ── Smaller cards (projects 02 & 03) ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {projects.slice(1).map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i + 1} />
           ))}
@@ -64,7 +64,7 @@ export default function ProjectsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: false }}
-          className="mt-14 pt-10 border-t border-[var(--border)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+          className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-[var(--border)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
         >
           <p className="text-text-muted text-sm">
             More projects available on request — NDA protected.

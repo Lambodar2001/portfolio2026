@@ -672,7 +672,7 @@ body {
 /* Extra small screens (≤ 480px) */
 @media (max-width: 480px) {
   .text-hero {
-    font-size: clamp(2rem, 12vw, 3rem);
+    font-size: clamp(2rem, 11vw, 3.5rem);
     line-height: 1.02;
   }
 

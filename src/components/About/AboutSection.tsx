@@ -7,16 +7,16 @@ function StatCounter({ value, suffix, label }: { value: number; suffix: string; 
   const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true })
 
   return (
-    <div ref={ref} className="text-center py-10 border border-[var(--border)] rounded-2xl hover:border-[var(--border-hover)] transition-colors">
+    <div ref={ref} className="text-center py-6 sm:py-10 border border-[var(--border)] rounded-2xl hover:border-[var(--border-hover)] transition-colors">
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={inView ? { opacity: 1, scale: 1 } : {}}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="font-display font-bold text-4xl lg:text-5xl text-gradient mb-2"
+        className="font-display font-bold text-2xl sm:text-4xl lg:text-5xl text-gradient mb-1.5 sm:mb-2"
       >
         {value}{suffix}
       </motion.div>
-      <div className="text-sm text-text-muted">{label}</div>
+      <div className="text-xs sm:text-sm text-text-muted">{label}</div>
     </div>
   )
 }
@@ -37,8 +37,8 @@ export default function AboutSection() {
   }
 
   return (
-    <section id="about" className="relative py-14 lg:py-20 overflow-hidden bg-bg-base">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="about" className="relative py-10 lg:py-20 overflow-hidden bg-bg-base">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section label */}
         <motion.div
@@ -46,14 +46,14 @@ export default function AboutSection() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: false }}
-          className="flex items-center gap-4 mb-16"
+          className="flex items-center gap-4 mb-10 sm:mb-14 lg:mb-16"
         >
           <div className="w-8 h-px bg-accent" />
           <span className="text-label text-text-muted">ABOUT</span>
         </motion.div>
 
         {/* Large statement */}
-        <div className="mb-24">
+        <div className="mb-16 lg:mb-24">
           {['I BUILD', 'THINGS', 'THAT MATTER.'].map((line, i) => (
             <div key={i} style={{ overflow: 'hidden' }}>
               <motion.div
@@ -77,7 +77,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: false }}
-            className="text-lg text-text-secondary max-w-xl mt-8 leading-relaxed"
+            className="text-base sm:text-lg text-text-secondary max-w-xl mt-4 sm:mt-8 leading-relaxed"
           >
             Specialized in building scalable, intelligent systems that drive business value and user impact.
             I bring both engineering depth and product thinking to every project.
@@ -90,23 +90,23 @@ export default function AboutSection() {
           variants={container}
           initial="hidden"
           animate={inView ? 'show' : 'hidden'}
-          className="grid md:grid-cols-3 gap-6 mb-24"
+          className="grid md:grid-cols-3 gap-4 sm:gap-6 mb-16 lg:mb-24"
         >
           {skillGroups.map((group, idx) => (
             <motion.div
               key={group.category}
               variants={item}
               whileHover={{ y: -6 }}
-              className="card p-8 group cursor-default transition-all duration-300"
+              className="card p-5 sm:p-8 group cursor-default transition-all duration-300"
               style={{
                 background: 'var(--bg-surface)',
                 borderColor: 'var(--border)',
               }}
             >
               {/* Icon + accent indicator */}
-              <div className="flex items-start justify-between mb-6">
+              <div className="flex items-start justify-between mb-4 sm:mb-6">
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-xl sm:text-2xl"
                   style={{
                     background: `${group.accentColor}12`,
                     border: `1px solid ${group.accentColor}20`,
@@ -121,20 +121,20 @@ export default function AboutSection() {
               </div>
 
               {/* Content */}
-              <h3 className="font-display font-semibold text-text-primary text-lg mb-2">
+              <h3 className="font-display font-semibold text-text-primary text-base sm:text-lg mb-1.5 sm:mb-2">
                 {group.category}
               </h3>
-              <p className="text-text-secondary text-sm mb-6 leading-relaxed">
+              <p className="text-text-secondary text-sm mb-4 sm:mb-6 leading-relaxed">
                 {group.description}
               </p>
 
               {/* Tech tags */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {group.tech.map((tech) => (
                   <span
                     key={tech}
                     className="tag group-hover:border-white/15 transition-colors"
-                    style={{ fontSize: '0.7rem' }}
+                    style={{ fontSize: '0.65rem' }}
                   >
                     {tech}
                   </span>
@@ -143,7 +143,7 @@ export default function AboutSection() {
 
               {/* Bottom accent line on hover */}
               <div
-                className="h-px mt-6 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                className="h-px mt-4 sm:mt-6 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{ background: `linear-gradient(to right, ${group.accentColor}, transparent)` }}
               />
             </motion.div>
@@ -151,7 +151,7 @@ export default function AboutSection() {
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-24">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-16 lg:mb-24">
           {stats.slice(0, 3).map((stat) => (
             <StatCounter key={stat.label} value={stat.value} suffix={stat.suffix} label={stat.label} />
           ))}
@@ -161,7 +161,7 @@ export default function AboutSection() {
         <div className="divider" />
 
         {/* Tech Grid */}
-        <div id="skills">
+        <div id="skills" className="mt-12 sm:mt-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
