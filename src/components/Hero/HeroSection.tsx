@@ -252,7 +252,14 @@ export default function HeroSection() {
       {/* Main content */}
       <div className="relative z-10 w-full flex-1 flex items-center pt-16 pb-4 sm:pt-20 sm:pb-8 lg:pt-28 lg:pb-20 min-h-0">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-14 xl:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-14 xl:gap-20 items-center order-1">
+            {/* Right — Portrait card (mobile: shown first above text; desktop: hidden, handled by absolute div) */}
+            <div className="flex justify-center lg:justify-end max-h-[28vh] sm:max-h-[35vh] lg:max-h-none order-1 lg:hidden">
+              <div className="w-full max-w-[200px] sm:max-w-xs lg:w-auto">
+                <PortraitCard />
+              </div>
+            </div>
+
 
             {/* Left — Text content */}
             <motion.div
