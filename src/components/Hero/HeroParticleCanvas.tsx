@@ -44,7 +44,10 @@ export default function HeroParticleCanvas() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const dpr = window.devicePixelRatio || 1
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+
+    const isMobile = window.innerWidth < 768
+    const count = isMobile ? 40 : PARTICLE_COUNT
 
     const resize = () => {
       const w = canvas.parentElement?.offsetWidth ?? 0
@@ -55,7 +58,7 @@ export default function HeroParticleCanvas() {
       canvas.style.width = w + 'px'
       canvas.style.height = h + 'px'
       // Reinitialize particles for the new canvas dimensions
-      particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () =>
+      particlesRef.current = Array.from({ length: count }, () =>
         createParticle(canvas.width, canvas.height)
       )
     }

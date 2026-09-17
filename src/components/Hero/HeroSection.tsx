@@ -217,22 +217,22 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative h-screen min-h-[580px] max-h-[1080px] flex items-center justify-center overflow-hidden bg-bg-base"
+      className="relative min-h-screen max-h-[1080px] flex flex-col overflow-hidden bg-bg-base"
     >
-      {/* Same background for entire section — both sides equal */}
+      {/* Same background for entire section */}
       <div className="absolute inset-0 bg-bg-base" aria-hidden="true" />
 
       {/* Animated background gradient mesh */}
       <div className="gradient-mesh" aria-hidden="true" />
 
-      {/* Unified particle canvas — one continuous layer covering the full Hero */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true" style={{ zIndex: 1 }}>
+      {/* Particle canvas — full width, overflow contained */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true" style={{ zIndex: 1 }}>
         <HeroParticleCanvas />
       </div>
 
       {/* Scroll indicator */}
       <div
-        className="absolute right-0 top-0 bottom-0 w-2/3 sm:w-2/3 lg:w-1/2 flex items-center justify-center pointer-events-none"
+        className="hidden lg:flex absolute right-0 top-0 bottom-0 w-1/2 items-center justify-center pointer-events-none"
         style={{ zIndex: 14 }}
         aria-hidden="true"
       >
@@ -241,92 +241,101 @@ export default function HeroSection() {
         </Suspense>
       </div>
 
-      {/* Portrait — centered over orb */}
+      {/* Desktop-only: absolutely positioned portrait behind the orb area */}
       <div
-        className="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 lg:w-1/2 flex items-center justify-center"
+        className="hidden lg:flex absolute right-0 top-0 bottom-0 w-1/2 items-center justify-center"
         style={{ zIndex: 16 }}
       >
         <PortraitCard />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full h-full flex items-center pt-16 pb-10 sm:pt-20 sm:pb-12 lg:pt-28 lg:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-14 xl:gap-20 items-center w-full px-4 sm:px-6 lg:px-8">
+      {/* Main content */}
+      <div className="relative z-10 w-full flex-1 flex items-center pt-20 pb-8 sm:pt-24 sm:pb-12 lg:pt-28 lg:pb-20">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-14 xl:gap-20 items-center">
 
-          {/* Left — Text content */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-            className="lg:col-span-1 space-y-4 sm:space-y-6 lg:space-y-8"
-          >
-            {/* Sub-label */}
-            <motion.div variants={fadeUp}>
-              <div className="inline-flex items-center gap-2.5 text-label text-text-muted">
-                <div className="status-dot" />
-                {profile.title.toUpperCase()} · {profile.subtitle.toUpperCase()}
-              </div>
-            </motion.div>
-
-            {/* Main tagline */}
-            <div>
-              <HeroTagline />
-            </div>
-
-            {/* Description */}
-            <motion.p
-              variants={fadeUp}
-              className="text-sm sm:text-base lg:text-lg text-text-secondary max-w-md leading-relaxed"
+            {/* Left — Text content */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="space-y-4 sm:space-y-6 lg:space-y-8"
             >
-              {profile.description}
-            </motion.p>
+              {/* Sub-label */}
+              <motion.div variants={fadeUp}>
+                <div className="inline-flex items-center gap-2.5 text-label text-text-muted">
+                  <div className="status-dot" />
+                  {profile.title.toUpperCase()} · {profile.subtitle.toUpperCase()}
+                </div>
+              </motion.div>
 
-            {/* CTA buttons */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
-              <motion.a
-                href="#projects"
-                onClick={(e) => {
-                  e.preventDefault()
-                  document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })
-                }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="btn btn-primary"
-              >
-                View My Work
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </motion.a>
-
-              <motion.a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault()
-                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
-                }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="btn btn-secondary"
-              >
-                Get In Touch
-              </motion.a>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div variants={fadeUp} className="pt-1 sm:pt-3 lg:pt-4">
-              <div className="flex gap-4 sm:gap-6 lg:gap-8 flex-wrap">
-                {stats.slice(0, 3).map((stat) => (
-                  <div key={stat.label}>
-                    <div className="font-display font-bold text-lg sm:text-xl lg:text-2xl text-text-primary">
-                      {stat.value}{stat.suffix}
-                    </div>
-                    <div className="text-[0.65rem] sm:text-xs text-text-muted mt-0.5">{stat.label}</div>
-                  </div>
-                ))}
+              {/* Main tagline */}
+              <div>
+                <HeroTagline />
               </div>
+
+              {/* Description */}
+              <motion.p
+                variants={fadeUp}
+                className="text-sm sm:text-base lg:text-lg text-text-secondary max-w-md leading-relaxed"
+              >
+                {profile.description}
+              </motion.p>
+
+              {/* CTA buttons */}
+              <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
+                <motion.a
+                  href="#projects"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })
+                  }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="btn btn-primary"
+                >
+                  View My Work
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </motion.a>
+
+                <motion.a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
+                  }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="btn btn-secondary"
+                >
+                  Get In Touch
+                </motion.a>
+              </motion.div>
+
+              {/* Stats */}
+              <motion.div variants={fadeUp} className="pt-1 sm:pt-3 lg:pt-4">
+                <div className="flex gap-4 sm:gap-6 lg:gap-8 flex-wrap">
+                  {stats.slice(0, 3).map((stat) => (
+                    <div key={stat.label}>
+                      <div className="font-display font-bold text-lg sm:text-xl lg:text-2xl text-text-primary">
+                        {stat.value}{stat.suffix}
+                      </div>
+                      <div className="text-[0.65rem] sm:text-xs text-text-muted mt-0.5">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+
+            {/* Right — Portrait card (mobile: shown below text; desktop: hidden, handled by absolute div) */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="w-full max-w-sm sm:max-w-md lg:w-auto">
+                <PortraitCard />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
