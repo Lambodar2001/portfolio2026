@@ -217,7 +217,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen max-h-[1080px] flex flex-col overflow-hidden bg-bg-base"
+      className="relative h-screen min-h-[600px] max-h-[900px] sm:max-h-[1000px] flex flex-col overflow-hidden bg-bg-base"
     >
       {/* Same background for entire section */}
       <div className="absolute inset-0 bg-bg-base" aria-hidden="true" />
@@ -250,9 +250,9 @@ export default function HeroSection() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 w-full flex-1 flex items-center pt-20 pb-8 sm:pt-24 sm:pb-12 lg:pt-28 lg:pb-20">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-14 xl:gap-20 items-center">
+      <div className="relative z-10 w-full flex-1 flex items-center pt-16 pb-4 sm:pt-20 sm:pb-8 lg:pt-28 lg:pb-20 min-h-0">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-14 xl:gap-20 items-center">
 
             {/* Left — Text content */}
             <motion.div
@@ -330,8 +330,8 @@ export default function HeroSection() {
             </motion.div>
 
             {/* Right — Portrait card (mobile: shown below text; desktop: hidden, handled by absolute div) */}
-            <div className="flex justify-center lg:justify-end">
-              <div className="w-full max-w-sm sm:max-w-md lg:w-auto">
+            <div className="flex justify-center lg:justify-end max-h-[28vh] sm:max-h-[35vh] lg:max-h-none">
+              <div className="w-full max-w-[200px] sm:max-w-xs lg:w-auto">
                 <PortraitCard />
               </div>
             </div>
