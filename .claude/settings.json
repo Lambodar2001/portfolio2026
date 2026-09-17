@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git commit -m 'fix\\(hero\\): constrain portrait height on mobile to prevent tall scroll *)"
+      "Bash(git commit -m 'fix\\(hero\\): constrain portrait height on mobile to prevent tall scroll *)",
+      "Bash(git commit -m 'fix\\(hero\\): portrait image appears first on mobile, text below it *)"
     ]
   }
 }
