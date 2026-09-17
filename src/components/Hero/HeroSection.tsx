@@ -253,14 +253,6 @@ export default function HeroSection() {
       <div className="relative z-10 w-full flex-1 flex items-center pt-16 pb-4 sm:pt-20 sm:pb-8 lg:pt-28 lg:pb-20 min-h-0">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-14 xl:gap-20 items-center order-1">
-            {/* Right — Portrait card (mobile: shown first above text; desktop: hidden, handled by absolute div) */}
-            <div className="flex justify-center lg:justify-end max-h-[28vh] sm:max-h-[35vh] lg:max-h-none order-1 lg:hidden">
-              <div className="w-full max-w-[200px] sm:max-w-xs lg:w-auto">
-                <PortraitCard />
-              </div>
-            </div>
-
-
             {/* Left — Text content */}
             <motion.div
               variants={containerVariants}
@@ -279,6 +271,13 @@ export default function HeroSection() {
               {/* Main tagline */}
               <div>
                 <HeroTagline />
+              </div>
+
+              {/* Mobile-only portrait between heading and description */}
+              <div className="lg:hidden flex justify-center max-h-[30vh] sm:max-h-[38vh]">
+                <div className="w-full max-w-[200px] sm:max-w-xs">
+                  <PortraitCard />
+                </div>
               </div>
 
               {/* Description */}
@@ -336,11 +335,9 @@ export default function HeroSection() {
               </motion.div>
             </motion.div>
 
-            {/* Right — Portrait card (mobile: shown below text; desktop: hidden, handled by absolute div) */}
-            <div className="flex justify-center lg:justify-end max-h-[28vh] sm:max-h-[35vh] lg:max-h-none">
-              <div className="w-full max-w-[200px] sm:max-w-xs lg:w-auto">
-                <PortraitCard />
-              </div>
+            {/* Right — Portrait card (desktop only: absolutely positioned behind orb) */}
+            <div className="hidden lg:flex absolute right-0 top-0 bottom-0 w-1/2 items-center justify-center">
+              <PortraitCard />
             </div>
           </div>
         </div>
